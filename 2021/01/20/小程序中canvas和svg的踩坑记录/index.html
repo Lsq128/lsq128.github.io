@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="code-DMcH9tdti5" />
+  <meta name="referrer" content="no-referrer" />
+  
+  <title>小程序中canvas和svg的踩坑记录 | Q Code | 遇事不决 可问春风 春风不语 遵循自心</title>
+
+  
+  <meta name="author" content="Luis">
+  
+
+  
+  <meta name="description" content="javaScript">
+  
+
+  
+  <meta name="keywords" content="前端,博客,刘胜群">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="小程序中canvas和svg的踩坑记录"/>
+
+  <meta property="og:site_name" content="Q Code"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Q Code" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Q Code</a>
+    </h1>
+    <p class="site-description">遇事不决 可问春风 春风不语 遵循自心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>小程序中canvas和svg的踩坑记录</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/01/20/小程序中canvas和svg的踩坑记录/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-01-19T20:04:15.000Z">
+          2021-01-20
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="小程序中canvas和svg的踩坑记录"><a href="#小程序中canvas和svg的踩坑记录" class="headerlink" title="小程序中canvas和svg的踩坑记录"></a>小程序中canvas和svg的踩坑记录</h1><p>自己总结的一些踩坑记录～</p>
+<a id="more"></a>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我之前负责的是一款百度旗下财经类股票自选股的智能小程序。业务中经常会有图表类的需求。比如 k线图，分时图，各种财务报表，数据分析图等等..</p>
+<div style="display: inline-block">
+<img src="https://tva1.sinaimg.cn/large/008eGmZEly1gmtin0krq8g30cw0qotxk.gif" width="250" alt="股票k线图" align=center />
+<p>图1</p>
+</div>
+<div style="display: inline-block;vertical-align: top">
+<img src="https://tva1.sinaimg.cn/large/008eGmZEly1gmtiawm55dg30cw0qox6p.gif" width="250" alt="股票k线图" align=center />
+<p>图2</p>
+</div>
+
+<h2 id="canvas与svg"><a href="#canvas与svg" class="headerlink" title="canvas与svg"></a>canvas与svg</h2><p>在这些绘制图表类的需求中，一般会在canvas与svg二者中选择技术实现方案(如图1为canvas, 图2为svg)，且往往选择canvas居多。<br>小程序中，canvas和svg各有所长，亦各有所短，我们只有在掌握其各自的利弊，才能在项目中应用自如，少入坑。</p>
+<h3 id="canvas"><a href="#canvas" class="headerlink" title="canvas"></a>canvas</h3><p>小程序中使用canvas来实现绘制各种图表，还是比较常见了，也有一些优点。</p>
+<p><strong>优点:</strong></p>
+<ol>
+<li>支持动画</li>
+<li>支持复杂的交互</li>
+<li>可操作图片，保存图片等..</li>
+</ol>
+<p><strong>缺点:</strong></p>
+<p>1.层级问题：<br>组件分为原生组件和小程序组件，若没有解决同层渲染问题，就有出现层级的问题，比如, swiper组件(滑块组件)不能与canvas 一起使用。</p>
+<p>这里对于常用的小程序： 微信小程序，百度智能小程序，支持宝小程序，三家对于canvas组件分析一下。</p>
+<p><strong>微信小程序</strong>：在2.9.0版本后支持了同层渲染(当前最新版本v2.14.3 (2021-01-05))</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1gmtjy74zxuj311s01m752.jpg" alt="images.png"></p>
+<p><strong>百度小程序</strong>：目前还没有支持同层渲染(所以图2中使用了svg方案)</p>
+<p><strong>支付宝小程序</strong>:在2.6.2基础库之前为非原生组件，后续版本会切换为原生组件(秀～～)，但是切换为原生组件是否支持同层渲染呢？个人认为应该是不支持的，我没调研… (写到这里有点困了….)</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1gmtk3tsqpcj31ck0g6ju7.jpg" alt="images.png"></p>
+<p>2.复杂的交互容易造成卡顿，影响体验，需要降频处理</p>
+<p>3.在高DPR(设备像素比)的情况保持细腻的画质，需要配套处理<br>    <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先将 canvas 用属性设置放大，用样式缩小</span></span><br><span class="line">&lt;!-- getSystemInfoSync().pixelRatio === <span class="number">2</span> --&gt;</span><br><span class="line"></span><br><span class="line">&lt;canvas width=<span class="string">"200"</span> height=<span class="string">"200"</span> style=<span class="string">"width:100px;height:100px;"</span>/&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="svg"><a href="#svg" class="headerlink" title="svg"></a>svg</h3><p>以微信，百度，支付宝三家小程序为例，小程序中使用svg的方式分为3种;</p>
+<h4 id="image-组件"><a href="#image-组件" class="headerlink" title="image 组件"></a>image 组件</h4><p>image组件 支持svg格式图片</p>
+<h4 id="svg标签"><a href="#svg标签" class="headerlink" title="svg标签"></a>svg标签</h4><p>微信小程序支持使用 Cax 引擎高性能渲染 SVG。<br>本人没有亲测调研(太困啦….)<br>但是看到了这句总结:</p>
+<blockquote>
+<p>使用小程序内置的 Canvas 渲染器， 在 Cax 中实现 SVG 标准的子集，使用 JSX 或者 HTM 描述 SVG 结构行为表现</p>
+</blockquote>
+<p>所以最后渲染出得还是canvas, 不过微信已经支持canvas(2d)同层渲染了，所以还是很哇塞的.</p>
+<p>文档链接: <a href="https://developers.weixin.qq.com/community/develop/article/doc/000ca493bc09c0d03a8827b9b5b013" target="_blank" rel="noopener">https://developers.weixin.qq.com/community/develop/article/doc/000ca493bc09c0d03a8827b9b5b013</a></p>
+<h4 id="background-url"><a href="#background-url" class="headerlink" title="background-url"></a>background-url</h4><p>最后就是使用背景图片的方式，也是我在小程序中常用的方式.<br>这里先看一个例子</p>
+<p>模版中使用元素的background-url属性动态绑定svg图片</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// .wxml | .swan | .axml</span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">style</span>=<span class="string">"width:148px;height:148px;background:url('&#123;&#123; svgTpl &#125;&#125;') no-repeat center"</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>js文件中赋值svgTpl变量</p>
+<p>这里注意一下：常用的svg图片格式分为两种</p>
+<ol>
+<li>data:image/svg+xml;base64,….</li>
+<li>data:image/svg+xml;utf8,&lt;svg…</li>
+</ol>
+<p>至于为什么这里用base64编码的呢，因为要敲黑板了， 重点了！ 稍后说</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .js</span></span><br><span class="line">Page(&#123;</span><br><span class="line">    data: &#123;</span><br><span class="line">        svgTpl:<span class="string">'data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjE0OCIgaGVpZ2h0PSIxNDgiIHZpZXdCb3g9IjAgMCAxNDggMTQ4Ij48Y2lyY2xlIGN4PSI3NCIgY3k9Ijc0IiByPSI3MCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y3NTM0RiIgc3Ryb2tlLWRhc2hhcnJheT0iMTE2LjExMzI2NDQ3NjY3ODc1IDQzOS44MjI5NzE1MDI1NzEiIHRyYW5zZm9ybT0icm90YXRlKDAsIDc0LCA3NCkiPjwvY2lyY2xlPjxjaXJjbGUgY3g9Ijc0IiBjeT0iNzQiIHI9IjcwIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkE5NzAwIiBzdHJva2UtZGFzaGFycmF5PSIxNTQuODE3Njg1OTY4OTA1IDQzOS44MjI5NzE1MDI1NzEiIHRyYW5zZm9ybT0icm90YXRlKDEwNS44NCwgNzQsIDc0KSI+PC9jaXJjbGU+PGNpcmNsZSBjeD0iNzQiIGN5PSI3NCIgcj0iNzAiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiM0QUM4ODEiIHN0cm9rZS1kYXNoYXJyYXk9Ijc3LjQwODg0Mjk4NDQ1MjUgNDM5LjgyMjk3MTUwMjU3MSIgdHJhbnNmb3JtPSJyb3RhdGUoMjQzLjM2LCA3NCwgNzQpIj48L2NpcmNsZT48Y2lyY2xlIGN4PSI3NCIgY3k9Ijc0IiByPSI3MCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzODhGRiIgc3Ryb2tlLWRhc2hhcnJheT0iMzguNzA0NDIxNDkyMjI2MjUgNDM5LjgyMjk3MTUwMjU3MSIgdHJhbnNmb3JtPSJyb3RhdGUoMzE3LjUyMDAwMDAwMDAwMDA0LCA3NCwgNzQpIj48L2NpcmNsZT48L3N2Zz4='</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>效果图</p>
+<img src="https://tva1.sinaimg.cn/large/008eGmZEly1gmtlhb0hvkj30cm09e0t1.jpg" height="200">
+
+<hr>
+<p><strong>小程序中的utf8与base64</strong></p>
+<p>现在在这里说一下为什么上面的示例中，采用了base64编码的svg图片而没有用utf8编码的图片</p>
+<p>大家可以先复制如下代码在72版本以上的chrome浏览器与其他浏览器(比如Safari)</p>
+<figure class="highlight svg"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">data:image/svg+xml;utf8,<span class="tag">&lt;<span class="name">svg</span> <span class="attr">version</span>=<span class="string">"1.1"</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/2000/svg"</span> <span class="attr">width</span>=<span class="string">"148"</span> <span class="attr">height</span>=<span class="string">"148"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">viewBox</span>=<span class="string">"0 0 148 148"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"74"</span> <span class="attr">cy</span>=<span class="string">"74"</span> <span class="attr">r</span>=<span class="string">"70"</span> <span class="attr">stroke-width</span>=<span class="string">"8"</span> <span class="attr">stroke-linecap</span>=<span class="string">"round"</span> <span class="attr">fill</span>=<span class="string">"none"</span> <span class="attr">stroke</span>=<span class="string">"#F7534F"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">stroke-dasharray</span>=<span class="string">"116.11326447667875 439.822971502571"</span> <span class="attr">transform</span>=<span class="string">"rotate(0, 74, 74)"</span>&gt;</span><span class="tag">&lt;/<span class="name">circle</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"74"</span> <span class="attr">cy</span>=<span class="string">"74"</span> <span class="attr">r</span>=<span class="string">"70"</span> <span class="attr">stroke-width</span>=<span class="string">"8"</span> <span class="attr">stroke-linecap</span>=<span class="string">"round"</span> <span class="attr">fill</span>=<span class="string">"none"</span> <span class="attr">stroke</span>=<span class="string">"#FA9700"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">stroke-dasharray</span>=<span class="string">"154.817685968905 439.822971502571"</span> <span class="attr">transform</span>=<span class="string">"rotate(105.84, 74, 74)"</span>&gt;</span><span class="tag">&lt;/<span class="name">circle</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"74"</span> <span class="attr">cy</span>=<span class="string">"74"</span> <span class="attr">r</span>=<span class="string">"70"</span> <span class="attr">stroke-width</span>=<span class="string">"8"</span> <span class="attr">stroke-linecap</span>=<span class="string">"round"</span> <span class="attr">fill</span>=<span class="string">"none"</span> <span class="attr">stroke</span>=<span class="string">"#4AC881"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">stroke-dasharray</span>=<span class="string">"77.4088429844525 439.822971502571"</span> <span class="attr">transform</span>=<span class="string">"rotate(243.36, 74, 74)"</span>&gt;</span><span class="tag">&lt;/<span class="name">circle</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"74"</span> <span class="attr">cy</span>=<span class="string">"74"</span> <span class="attr">r</span>=<span class="string">"70"</span> <span class="attr">stroke-width</span>=<span class="string">"8"</span> <span class="attr">stroke-linecap</span>=<span class="string">"round"</span> <span class="attr">fill</span>=<span class="string">"none"</span> <span class="attr">stroke</span>=<span class="string">"#3388FF"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">stroke-dasharray</span>=<span class="string">"38.70442149222625 439.822971502571"</span> <span class="attr">transform</span>=<span class="string">"rotate(317.52000000000004, 74, 74)"</span>&gt;</span><span class="tag">&lt;/<span class="name">circle</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>原因：</p>
+<p>Chrome 71和更早版本在URI中支持＃，但在72之后不支持, 在上述代码中我们的颜色使用的是带有#号的16进制。</p>
+<p>补充一下:<br><strong>微信，百度，支付宝小程序中js引擎</strong></p>
+<p><strong>Android</strong>： V8</p>
+<p><strong>Ios</strong>: jsCore</p>
+<p>所以如果在安卓端使用svg背景图时要特别注意一下。</p>
+<p>解决方案:</p>
+<p><strong>A: 使用utf8编码时，颜色特别处理</strong></p>
+<p>避开#危险符号，颜色使用rgb.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> hexToRGB = <span class="function">(<span class="params">hex</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> hex !== <span class="string">'string'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 过滤非法输入</span></span><br><span class="line">  <span class="keyword">if</span> (!<span class="regexp">/^#[0-9ABCDEFabcdef]&#123;1,6&#125;$/</span>.test(hex)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> pureStr = hex.slice(<span class="number">1</span>);</span><br><span class="line">  <span class="comment">// 处理简写形式</span></span><br><span class="line">  <span class="keyword">if</span> (pureStr.length === <span class="number">3</span>) &#123;</span><br><span class="line">    <span class="comment">// 7f7 =&gt; [7, f, 7] =&gt; [[7], [f], [7]] =&gt; [[77], [ff], [77]] =&gt; [77, ff, 77] =&gt; 77ff77</span></span><br><span class="line">    pureStr = [].concat(...[...pureStr].map(<span class="function"><span class="params">v</span> =&gt;</span> [v]).map(<span class="function"><span class="params">v</span> =&gt;</span> v.concat(v))).join(<span class="string">''</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> result = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; pureStr.length; i += <span class="number">2</span>) &#123;</span><br><span class="line">    result.push(<span class="built_in">parseInt</span>((pureStr[i] + pureStr[i + <span class="number">1</span>]), <span class="number">16</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`rgn(<span class="subst">$&#123;result.join(<span class="string">', '</span>)&#125;</span>)`</span></span><br><span class="line">&#125;;</span><br><span class="line">hexToRGB(<span class="string">'#F0F0F0'</span>) <span class="comment">// =&gt; rgb(240, 240, 240)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>B: 采用base64编码</strong></p>
+<p>将计算好的svg字符串再编码成base64编码,</p>
+<p>这里是我所用到的方法, 大佬们可以简单参考</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> * svg base64编码图片</span><br><span class="line"> * @param svgText &#123;string&#125; 拼接的svg字符串</span><br><span class="line"> * @returns imgStr &#123;string&#125; base64转码后的图片</span><br><span class="line"> *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">function getBase64Url(svgText, w, h) &#123;</span></span><br><span class="line"><span class="regexp">    if (!svgText) &#123;</span></span><br><span class="line"><span class="regexp">        return '';</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    const agreement = 'data:image/</span>svg+xml;base64,<span class="string">';</span></span><br><span class="line"><span class="string">    svgText = `&lt;svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="$&#123;w&#125;" height="$&#123;h&#125;" viewBox="0 0 $&#123;w&#125; $&#123;h&#125;"&gt;`</span></span><br><span class="line"><span class="string">            + svgText</span></span><br><span class="line"><span class="string">            + '</span>&lt;<span class="regexp">/svg&gt;';</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/ 必须这样搭配，可以支持中文且可编码成base64， 别问为什么... 好困....</span></span><br><span class="line"><span class="regexp">    svgText = encodeURIComponent(svgText);</span></span><br><span class="line"><span class="regexp">    const base64Url = btoa(unescape(svgText));</span></span><br><span class="line"><span class="regexp">    return agreement + base64Url;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>其他:</strong></p>
+<p>若svg中设计除颜色之外的地方用到#,或没办法替换#的情况，只能用B方案</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>以上就是对小程序中使用canvas与svg的简单介绍了， 欢迎各位大佬赏阅。</p>
+<p>最后再安利一波，上面引用的小程序案例是百度旗下财经类自选股小程序：百股经，欢迎各位大佬试用～</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/小程序/">小程序</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Luis
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

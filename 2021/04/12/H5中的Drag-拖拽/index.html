@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="code-DMcH9tdti5" />
+  <meta name="referrer" content="no-referrer" />
+  
+  <title>H5中的Drag(拖拽) | Q Code | 遇事不决 可问春风 春风不语 遵循自心</title>
+
+  
+  <meta name="author" content="Luis">
+  
+
+  
+  <meta name="description" content="javaScript">
+  
+
+  
+  <meta name="keywords" content="前端,博客,刘胜群">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="H5中的Drag(拖拽)"/>
+
+  <meta property="og:site_name" content="Q Code"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Q Code" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Q Code</a>
+    </h1>
+    <p class="site-description">遇事不决 可问春风 春风不语 遵循自心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>H5中的Drag(拖拽)</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/04/12/H5中的Drag-拖拽/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-04-12T15:13:46.000Z">
+          2021-04-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>H5中的Drag(拖拽)</p>
+<a id="more"></a>
+<blockquote>
+<p>近期项目需求中涉及到了Dom拖拽的需求，所以自己整理了一些学习笔记</p>
+</blockquote>
+<h2 id="Dom事件"><a href="#Dom事件" class="headerlink" title="Dom事件"></a>Dom事件</h2><p>应用于当前被拖拽元素的事件</p>
+<ul>
+<li>ondrag 元素正在拖动时触发(整个过程持续触发)</li>
+<li>ondragstart 用户开始拖动元素时触发</li>
+<li>ondragend 用户完成元素拖动后触发</li>
+<li>ondragleave 当鼠标离开拖拽元素时调用</li>
+</ul>
+<p>应用于目标元素的事件</p>
+<ul>
+<li>ondragenter    应用于目标元素，当拖拽元素进入时调用</li>
+<li>ondragover    应用于目标元素，当停留在目标元素上时调用(持续触发)</li>
+<li>ondrop        应用于目标元素，当在目标元素上松开鼠标时调用</li>
+<li>ondragleave    应用于目标元素，当鼠标离开目标元素时调用</li>
+</ul>
+<h2 id="拖动元素"><a href="#拖动元素" class="headerlink" title="拖动元素"></a>拖动元素</h2><p>被拖动元素(除img,a标签，默认可以拖动)需要添加<code>draggable=&quot;true&quot;</code>属性.</p>
+<h2 id="目标元素ondrop不生效？"><a href="#目标元素ondrop不生效？" class="headerlink" title="目标元素ondrop不生效？"></a>目标元素ondrop不生效？</h2><p><code>ondrop</code>事件始终不触发，原因是没有定义<code>ondragover</code>事件，<code>ondragover</code>事件是被拖拽元素在目标元素上拖拽过程中由目标元素触发，需要取消掉它的默认事件(<code>e.preventDefault()</code>)才可以正确触发，<code>ondrop</code>事件是被拖拽元素在目标元素上面drop的时候由目标元素触发;</p>
+<h2 id="Demo-Code"><a href="#Demo-Code" class="headerlink" title="Demo Code"></a>Demo Code</h2><p>使用vue 简单写了一个小demo</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- html --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box1"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">v-for</span>=<span class="string">"(item, index) in list1"</span> <span class="attr">:key</span>=<span class="string">"index"</span> <span class="attr">draggable</span> @<span class="attr">dragstart</span>=<span class="string">"onDrag"</span> <span class="attr">:k</span>=<span class="string">"index"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>姓名：&#123;&#123; item.name &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>电话：&#123;&#123; item.phone &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box2"</span> @<span class="attr">dragover</span>=<span class="string">"ondragover"</span> @<span class="attr">drop</span>=<span class="string">"onDrop"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">template</span> <span class="attr">v-if</span>=<span class="string">"list2 &amp;&amp; list2.length"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">v-for</span>=<span class="string">"(item, index) in list2"</span> <span class="attr">:key</span>=<span class="string">"index"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>姓名：&#123;&#123; item.name &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>电话：&#123;&#123; item.phone &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .javascript</span></span><br><span class="line">  data() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      list1: [</span><br><span class="line">        &#123;</span><br><span class="line">          name: <span class="string">'张三'</span>,</span><br><span class="line">          phone: <span class="number">123456789123</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          name: <span class="string">'李四'</span>,</span><br><span class="line">          phone: <span class="number">321987654321</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          name: <span class="string">"王五"</span>,</span><br><span class="line">          phone: <span class="string">"456789432122"</span></span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      list2: []</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    onDrag(e) &#123;</span><br><span class="line">      <span class="keyword">const</span> dataTransfer = e.dataTransfer;</span><br><span class="line">      <span class="keyword">const</span> target = e.target;</span><br><span class="line">      <span class="keyword">const</span> k = target.getAttribute(<span class="string">"k"</span>);</span><br><span class="line">      dataTransfer.setData(<span class="string">"k"</span>, k);</span><br><span class="line">    &#125;,</span><br><span class="line">    ondragover(e) &#123;</span><br><span class="line">      e.preventDefault();</span><br><span class="line">    &#125;,</span><br><span class="line">    onDrop(e) &#123;</span><br><span class="line">      <span class="keyword">const</span> dataTransfer = e.dataTransfer;</span><br><span class="line">      <span class="keyword">const</span> k = +dataTransfer.getData(<span class="string">'k'</span>);</span><br><span class="line">      <span class="keyword">this</span>.list1 = <span class="keyword">this</span>.list1.filter(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (index === k) &#123;</span><br><span class="line">          <span class="keyword">this</span>.list2.push(item);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> item;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Demo效果图"><a href="#Demo效果图" class="headerlink" title="Demo效果图"></a>Demo效果图</h2><p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1gphdzo7veog316i0k649l.gif" alt="image"></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/javaScript/">javaScript</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Luis
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="code-DMcH9tdti5" />
+  <meta name="referrer" content="no-referrer" />
+  
+  <title>前端自动化部署 | Q Code | 遇事不决 可问春风 春风不语 遵循自心</title>
+
+  
+  <meta name="author" content="Luis">
+  
+
+  
+  <meta name="description" content="javaScript">
+  
+
+  
+  <meta name="keywords" content="前端,博客,刘胜群">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="前端自动化部署"/>
+
+  <meta property="og:site_name" content="Q Code"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Q Code" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Q Code</a>
+    </h1>
+    <p class="site-description">遇事不决 可问春风 春风不语 遵循自心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>前端自动化部署</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/02/21/前端自动化部署/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-02-21T13:22:58.000Z">
+          2020-02-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="嘿！Jenkins前端自动化部署"><a href="#嘿！Jenkins前端自动化部署" class="headerlink" title="嘿！Jenkins前端自动化部署"></a>嘿！Jenkins前端自动化部署</h1><p>为什么要写这篇文章呢，首先要从一只蝙蝠🦇说起了…<br>以前我们上线一个项目的方式是本地开发完成，将编译打包的编译产物使用FTP或者其他方式部署在服务器上，这种方式是既繁琐又低效的。所以呢本期将使用Jenkins搭建一套前端自动化部署流水线。</p>
+<a id="more"></a>
+<h2 id="一、前端自动化部署流程介绍"><a href="#一、前端自动化部署流程介绍" class="headerlink" title="一、前端自动化部署流程介绍"></a>一、前端自动化部署流程介绍</h2><ul>
+<li>本地代码push到远程仓库</li>
+<li>服务器端Jenkins监听到后执行构建任务，拉取代码，执行编译打包，将编译产物部署到web项目工作目录</li>
+<li>服务端Nginx反向代理，是客户端可以访问</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582089586832-7df74d6c-76a1-4414-af7f-b6f5af7ce840.png#align=left&display=inline&height=271&name=image.png&originHeight=542&originWidth=1900&size=455028&status=done&style=none&width=950" alt="image.png"></p>
+<h2 id="二、做点准备"><a href="#二、做点准备" class="headerlink" title="二、做点准备"></a>二、做点准备</h2><ol>
+<li>首先搞一个服务器，我自己的是阿里云(新老用户，优惠多多)，操作系统： CentOS 7.6 64位，其他系统可以作为参考。</li>
+<li>使用ssh远程链接服务器，本文是Mac终端工具iTerm2,当然Terminal也可以的，总之能连上远程服务器就可以的</li>
+<li>创建一个代码仓库，本文使用的码云Gitee，毕竟GitHub有些慢…</li>
+</ol>
+<h2 id="三、server端配置"><a href="#三、server端配置" class="headerlink" title="三、server端配置"></a>三、server端配置</h2><h3 id="安装java环境"><a href="#安装java环境" class="headerlink" title="安装java环境"></a>安装java环境</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install java</span><br></pre></td></tr></table></figure>
+<p>查看版本号</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -verson</span><br></pre></td></tr></table></figure>
+<p>若有版本号输出，表示安装成功</p>
+<h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install git</span><br></pre></td></tr></table></figure>
+<p>查看版本号</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git -version</span><br></pre></td></tr></table></figure>
+<p>若有版本号输出，表示安装成功</p>
+<h3 id="安装-Jenkins"><a href="#安装-Jenkins" class="headerlink" title="安装 Jenkins"></a>安装 Jenkins</h3><p>本文采用的方式2</p>
+<h4 id="方式1"><a href="#方式1" class="headerlink" title="方式1"></a>方式1</h4><p>如果之前使用 Jenkins 导入过 key，忽略此步骤，如果第一次安装则输入如下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo</span><br><span class="line">sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key</span><br></pre></td></tr></table></figure>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install jenkins</span><br></pre></td></tr></table></figure>
+<p>这种方式很慢，可以尝试方式2</p>
+<h4 id="方式2"><a href="#方式2" class="headerlink" title="方式2"></a>方式2</h4><p>1.先将jenkins下载到本地 <a href="https://jenkins.io/zh/download/" target="_blank" rel="noopener">点击这里</a>，本文是jenkins-2.204.2-1.1.noarch.rpm<br>2.使用Transmit推到服务器(其他软件/操作系统可以参考)<br>3.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm -ih jenkins-2.204.2-1.1noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>如果执行报错，可以看下是否有这三个目录，没有则需要创建<br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582092731955-51538242-7279-442b-81e4-ad8830d9a4ad.png#align=left&display=inline&height=52&name=image.png&originHeight=104&originWidth=358&size=62895&status=done&style=none&width=179" alt="image.png"></p>
+<h3 id="启动Jenkins"><a href="#启动Jenkins" class="headerlink" title="启动Jenkins"></a>启动Jenkins</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service jenkins start</span><br></pre></td></tr></table></figure>
+<p>如果启动成功，我们在浏览器输入<code>http://服务器地址:8080</code>就能访问到入门页面了，如果不能访问检查8080端口是否被占用</p>
+<h3 id="配置Jenkins权限"><a href="#配置Jenkins权限" class="headerlink" title="配置Jenkins权限"></a>配置Jenkins权限</h3><p>现在的 Jenkins如果执行shell脚本，还不具备相应权限。需要进行如下操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/sysconfig/jenkins</span><br><span class="line">编辑状态中</span><br><span class="line">JENKINS_USER="root"</span><br></pre></td></tr></table></figure>
+<p>之后，修改 Jenkins 相关文件夹用户权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chown -R root:root /var/lib/jenkins</span><br><span class="line">chown -R root:root /var/cache/jenkins</span><br><span class="line">chown -R root:root /var/log/jenkins</span><br><span class="line">service jenkins restart</span><br></pre></td></tr></table></figure>
+
+<h3 id="Jenkins安装插件提速"><a href="#Jenkins安装插件提速" class="headerlink" title="Jenkins安装插件提速"></a>Jenkins安装插件提速</h3><p>当我们进入Jenkins中安装插件时会发现慢的丧心病狂，所以从网上找到一个真心不错的方法<br>首先进入Jenkins更新配置位置，我的是/var/lib/jenkins</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> &#123;你的Jenkins工作目录&#125;/updates  <span class="comment">#进入更新配置位置</span></span></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>使用sed</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sed -i <span class="string">'s/http:\/\/updates.jenkins-ci.org\/download/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins/g'</span> default.json &amp;&amp; sed -i <span class="string">'s/http:\/\/www.google.com/https:\/\/www.baidu.com/g'</span> default.json</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这是直接修改的配置文件，如果前边Jenkins用sudo启动的话，那么这里的两个<code>sed</code>前均需要加上<code>sudo</code></p>
+</blockquote>
+<p>重启Jenkins</p>
+<h2 id="四、gitee配置"><a href="#四、gitee配置" class="headerlink" title="四、gitee配置"></a>四、gitee配置</h2><ol>
+<li>创建自己的仓库，上传自己的代码(若没有先注册)</li>
+<li>打开仓库设置添加公钥(服务器公钥)</li>
+</ol>
+<p><strong>服务器公钥生成方式</strong><br>进入服务器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C "***@163.com"</span><br></pre></td></tr></table></figure>
+<p>根据提示完成三次回车即可生成 ssh key， 通过 <code>cat ~/.ssh/id_rsa.pub</code> 即可查看服务器的公钥。<br><strong>添加公钥</strong><br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582097698613-a972e47c-aa4b-4c96-8275-a0218219b2a8.png#align=left&display=inline&height=502&name=image.png&originHeight=1004&originWidth=2102&size=544249&status=done&style=none&width=1051" alt="image.png"></p>
+<h2 id="五、配置Jenkins"><a href="#五、配置Jenkins" class="headerlink" title="五、配置Jenkins"></a>五、配置Jenkins</h2><h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><ol>
+<li>浏览器输入<code>http://服务器地址:8080</code>就能访问到入门页面， 按照提示将密码复制粘贴，点击继续<img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582095947088-973eb7f8-5256-4709-baeb-1489e8713405.png#align=left&display=inline&height=448&name=image.png&originHeight=1340&originWidth=1902&size=976693&status=done&style=none&width=636" alt="image.png"></li>
+</ol>
+<ol start="2">
+<li><p>安装插件，可以选择推荐(由于上面配置了安装插件提速，这里应该会很快，如果还是很慢，或者安装失败，可以先跳过)</p>
+<p> <img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582096068605-c2b267d4-4898-43b2-bf84-85287d3eb61a.png#align=left&display=inline&height=413&name=image.png&originHeight=1228&originWidth=1906&size=1162848&status=done&style=none&width=641" alt="image.png"></p>
+</li>
+<li><p>安装完插件之后要创建用户，创建完成后点击保存并完成<img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582096207160-13279833-b21c-4782-84f9-089054ffa9f5.png#align=left&display=inline&height=445&name=image.png&originHeight=1276&originWidth=1852&size=617958&status=done&style=none&width=646" alt="image.png"></p>
+</li>
+<li><p>点击开始使用</p>
+<p> <img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582096442204-558febe0-31e2-46bb-bfd0-7dd7de6a19a4.png#align=left&display=inline&height=592&name=image.png&originHeight=1184&originWidth=1902&size=764929&status=done&style=none&width=951" alt="image.png"></p>
+</li>
+</ol>
+<h4 id="创建第一个新任务"><a href="#创建第一个新任务" class="headerlink" title="创建第一个新任务"></a>创建第一个新任务</h4><p>进入首页点击新建Item或者开始创建一个新任务，开始我们的第一步<br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582096908774-0b988dc9-651b-498c-a630-a6b3ac4df9ed.png#align=left&display=inline&height=588&name=image.png&originHeight=1176&originWidth=2288&size=782300&status=done&style=none&width=1144" alt="image.png"><br>输入任务名，比如self-project,选择构建一个自由风格的软件项目<br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582097148645-bba7b1fc-5162-4665-8b7d-b06161582e81.png#align=left&display=inline&height=715&name=image.png&originHeight=1430&originWidth=1932&size=821464&status=done&style=none&width=966" alt="image.png"><br>进入任务实例中，点击配置，进入任务配置页面<br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582098185926-23cab0c9-719a-4cc4-9260-94dbff081bd7.png#align=left&display=inline&height=473&name=image.png&originHeight=946&originWidth=1298&size=494511&status=done&style=none&width=649" alt="image.png"></p>
+<h4 id="Git-hook"><a href="#Git-hook" class="headerlink" title="Git hook"></a>Git hook</h4><blockquote>
+<p>现在要搞一下git钩子功能，当我们本地向远程仓库push代码，远程仓库会向配置的Jenkins服务器接口地址发送一个POST请求，Jenkins收到之后会构建触发任务。</p>
+</blockquote>
+<p>1.在配置页面点击源码管理，勾选Git,如下配置</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582103783742-ededa75a-4c9e-4e72-8821-e278eccb7e54.png#align=left&display=inline&height=525&name=image.png&originHeight=1050&originWidth=1904&size=505295&status=done&style=none&width=952" alt="image.png"></p>
+<p>2.添加触发器<br>使用Generic Webhook Trigger Plugin 插件(若没有则需要安装)，勾选，添加Token(用于触发远程仓库web hooks 的标识)<br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582103972963-588695dc-b165-4de3-a3ad-d9c35746d1ab.png#align=left&display=inline&height=702&name=image.png&originHeight=1404&originWidth=1914&size=851957&status=done&style=none&width=957" alt="image.png"></p>
+<ol start="3">
+<li>仓库配置钩子</li>
+</ol>
+<p>打开仓库管理，添加webHook,<br>URL规则为：http://<Jenkins ip>:&lt;端口&gt;/generic-webhook-trgger/invoke?token=&lt;$token&gt;<br>$token为Jenkins 任务配置中构建触发器中配置的token<br>最后选择添加</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582107437704-58a92459-00d1-4a03-9ca4-05600e9f940d.png#align=left&display=inline&height=779&name=image.png&originHeight=1558&originWidth=2054&size=944279&status=done&style=none&width=1027" alt="image.png"></p>
+<ol start="4">
+<li>构建配置</li>
+</ol>
+<p>这里是指git 拉取代码后，执行的构建任务，一般会有升级依赖包，测试，压缩资源等，本文只是一个demo,只涉及到将代码部署到web工作目录中<br>选择构建 =&gt; 增加构建步骤 =&gt; 执行shell<br>执行命令的操作是将目录下的文件，复制到/work/lsq web工作目录下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\cp -r -a ./* /work/lsq</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582106694695-b41b6af0-f324-46e0-8e7a-63a342722f47.png#align=left&display=inline&height=512&name=image.png&originHeight=1024&originWidth=1898&size=478893&status=done&style=none&width=949" alt="image.png"></p>
+<ol start="5">
+<li>点击应用并保存</li>
+</ol>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>当我们配置完成后，可以测试一下</p>
+<ol>
+<li><p>在本地仓库向远程仓库push一下代码</p>
+</li>
+<li><p>Jenkins对应的任务中，可以看到构建历史<img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582108117403-765d3875-ed5e-43e1-b6c1-6e2b7ef91a89.png#align=left&display=inline&height=673&name=image.png&originHeight=1346&originWidth=1438&size=684892&status=done&style=none&width=719" alt="image.png"></p>
+</li>
+<li><p>点击进去可以看到控制台输出<img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582108196040-bf80b9e7-cdc4-4756-8477-2da076a6f1fa.png#align=left&display=inline&height=520&name=image.png&originHeight=1040&originWidth=1862&size=890324&status=done&style=none&width=931" alt="image.png"></p>
+</li>
+</ol>
+<ol start="4">
+<li><p>进入服务器查看</p>
+<p>服务器 work/lsq 目录下确实同步更新，表示成功了！<br> <img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582108294797-142d6d62-0962-4a3f-ac06-d43ee67ce20f.png#align=left&display=inline&height=78&name=image.png&originHeight=156&originWidth=932&size=175434&status=done&style=none&width=466" alt="image.png"></p>
+</li>
+</ol>
+<h2 id="Nginx配置"><a href="#Nginx配置" class="headerlink" title="Nginx配置"></a>Nginx配置</h2><p> 当自动化部署成功后，希望我用户可以访问到我服务器的页面，这就需要用到Nginx<br>如果想要了解更多Nginx 可以参考<a href="https://juejin.im/post/5df43d6df265da33ef668688#heading-2" target="_blank" rel="noopener">这里</a><br>本次只涉及在服务器中Nginx的安装及简单使用</p>
+<h3 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install nginx -y</span><br></pre></td></tr></table></figure>
+<p>检验是否成功安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -v</span><br></pre></td></tr></table></figure>
+<p>输出版本号表示安装成功</p>
+<h3 id="访问首页"><a href="#访问首页" class="headerlink" title="访问首页"></a>访问首页</h3><p>通过安全组的配置，允许浏览器访问服务器地址的80端口(默认80端口)，就可以看到首页<img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582109325861-77a07510-d87d-41e3-ad88-b89f2b913dc3.png#align=left&display=inline&height=619&name=image.png&originHeight=1238&originWidth=2848&size=1780593&status=done&style=none&width=1424" alt="image.png"></p>
+<h3 id="修改Nginx配置"><a href="#修改Nginx配置" class="headerlink" title="修改Nginx配置"></a>修改Nginx配置</h3><p>此时已经可以访问到页面，现在需要看一下Nginx的配置，将页面配置成我们上面配置的自动化部署后的html文件。</p>
+<ol>
+<li>首先查看Nginx配置</li>
+</ol>
+<p>/etc/nginx/nginx.conf 为Nginx主配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<p>主要看server这里，root表示服务默认启动目录<br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582109727732-e008d075-201c-4d53-b821-2058dcc6910a.png#align=left&display=inline&height=465&name=image.png&originHeight=930&originWidth=884&size=1286229&status=done&style=none&width=442" alt="image.png"></p>
+<ol start="2">
+<li>修改启动目录</li>
+</ol>
+<p>只需要将目录改成上面的工作目录’/work/lsq’，保存即可<br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582109875587-1eb1518e-70ee-4868-b67c-846ccfcf8471.png#align=left&display=inline&height=390&name=image.png&originHeight=780&originWidth=806&size=1012229&status=done&style=none&width=403" alt="image.png"></p>
+<ol start="3">
+<li>重启Nginx</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx</span><br><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>访问服务器ip</li>
+</ol>
+<p>再次防伪服务器ip确认是否生效，<br>经确认，页面确实展现为工作目录下的文件。<br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582110019642-e2db6695-e904-4568-8267-390f3ac8db81.png#align=left&display=inline&height=308&name=image.png&originHeight=616&originWidth=1178&size=138513&status=done&style=none&width=589" alt="image.png"></p>
+<h2 id="整体回归"><a href="#整体回归" class="headerlink" title="整体回归"></a>整体回归</h2><p>到此，我们这个简单的前端自动化部署就完成了，现在可以整体回归一下。<br><strong>整体逻辑为： 本地文件更新，向远程仓库push代码，线上自动生效</strong><br>**</p>
+<ol>
+<li>本地代码更新</li>
+</ol>
+<p>将Hello Word 改为 你好 世界～<br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582110306500-4c232e52-f4d5-4039-a0f6-d5d97342282a.png#align=left&display=inline&height=349&name=image.png&originHeight=698&originWidth=674&size=181108&status=done&style=none&width=337" alt="image.png"><br>提交代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m"change text"</span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Jenkins构建</li>
+</ol>
+<p>查看Jenkins任务的构建是否成功<br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582110571088-0faf0630-d19e-4d12-8774-dfdf8f9d837e.png#align=left&display=inline&height=362&name=image.png&originHeight=1050&originWidth=1362&size=546761&status=done&style=none&width=470" alt="image.png"><br>经查看成功构建执行</p>
+<ol start="3">
+<li>线上是否生效</li>
+</ol>
+<p>再次访问线上，查看是否生效<br><img src="https://cdn.nlark.com/yuque/0/2020/png/177787/1582110663960-b69a53de-404f-4ee5-a30a-75d48fe505e2.png#align=left&display=inline&height=181&name=image.png&originHeight=362&originWidth=794&size=79956&status=done&style=none&width=397" alt="image.png"><br>线上已经生效</p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>到此，这一套前端自动化部署流程就算完成了，当然这只是一些很简单的配置，Jenkins还有许多强大的特性和功能。</p>
+<p>(转载请注明出处)</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Jenkins/">Jenkins</a><a href="/tags/前端自动化部署/">前端自动化部署</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Luis
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

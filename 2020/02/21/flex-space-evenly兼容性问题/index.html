@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="code-DMcH9tdti5" />
+  <meta name="referrer" content="no-referrer" />
+  
+  <title>flex-space-evenly兼容性问题 | Q Code | 遇事不决 可问春风 春风不语 遵循自心</title>
+
+  
+  <meta name="author" content="Luis">
+  
+
+  
+  <meta name="description" content="javaScript">
+  
+
+  
+  <meta name="keywords" content="前端,博客,刘胜群">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="flex-space-evenly兼容性问题"/>
+
+  <meta property="og:site_name" content="Q Code"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Q Code" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Q Code</a>
+    </h1>
+    <p class="site-description">遇事不决 可问春风 春风不语 遵循自心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>flex-space-evenly兼容性问题</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/02/21/flex-space-evenly兼容性问题/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-02-21T14:54:18.000Z">
+          2020-02-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="解决flex-space-evenly失效问题"><a href="#解决flex-space-evenly失效问题" class="headerlink" title="解决flex space-evenly失效问题"></a>解决flex space-evenly失效问题</h1><a id="more"></a>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">container</span>&#123;</span><br><span class="line">      <span class="attribute">display</span>: flex;</span><br><span class="line">      <span class="attribute">flex-flow</span>: row nowrap;</span><br><span class="line">      <span class="attribute">align-items</span>: center;</span><br><span class="line">      <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">       //justify-content: space-evenly;</span><br><span class="line">      &amp;<span class="selector-pseudo">:before</span>,</span><br><span class="line">      &amp;<span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">          <span class="attribute">content</span>: <span class="string">''</span>;</span><br><span class="line">          <span class="attribute">display</span>: block;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>space-evenly的作用是将每个元素的间隔相等, 但是兼容性较差,尤其是IOS,这种trick很好的解决了兼容性问题</strong>.</p>
+<blockquote>
+<p>原理很好理解,假设有5个元素, space-evenly是将每个剩余空间平均分割,这样就有6个相同宽度的间隔空间,间隔空间数量 = n + 1;<br>space-between是将最左边和最右边的元素分别占据最左边和最右边的空间,然后剩余空间平均分割,这样就有4个相同宽度的间隔空间, 间隔空间数量 = n -1;<br>利用这种伪元素方式,在第一个元素前面和最后一个元素后面分别加上一个不占据空间的元素,这样就是5+2=7个元素, 相同宽度间隔空间数量为6,因为左右两边的元素不占据空间,所以,变相的实现了space-evenly的效果.</p>
+</blockquote>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/flex/">flex</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Luis
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

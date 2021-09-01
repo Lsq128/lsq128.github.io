@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="code-DMcH9tdti5" />
+  <meta name="referrer" content="no-referrer" />
+  
+  <title>fetch的简单封装 | Q Code | 遇事不决 可问春风 春风不语 遵循自心</title>
+
+  
+  <meta name="author" content="Luis">
+  
+
+  
+  <meta name="description" content="javaScript">
+  
+
+  
+  <meta name="keywords" content="前端,博客,刘胜群">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="fetch的简单封装"/>
+
+  <meta property="og:site_name" content="Q Code"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Q Code" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Q Code</a>
+    </h1>
+    <p class="site-description">遇事不决 可问春风 春风不语 遵循自心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>fetch的简单封装</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/04/13/fetch的简单封装/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-04-13T14:50:44.000Z">
+          2021-04-13
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="fetch的简单封装"><a href="#fetch的简单封装" class="headerlink" title="fetch的简单封装"></a>fetch的简单封装</h1><a id="more"></a>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> TIME_OUT = <span class="number">6000</span>; <span class="comment">// 超时时间</span></span><br><span class="line"><span class="keyword">const</span> TOKEN = <span class="string">'token'</span>; <span class="comment">// 自定义token</span></span><br><span class="line"><span class="keyword">const</span> ContentType = &#123; <span class="comment">// ContentType 映射表</span></span><br><span class="line">  json:<span class="string">'application/json;charset=UTF-8'</span>, <span class="comment">// json数据格式</span></span><br><span class="line">  form: <span class="string">'application/x-www-form-urlencoded; charset=UTF-8'</span>, <span class="comment">// 表单数据格式</span></span><br><span class="line">  download: <span class="string">'application/octet-stream'</span> <span class="comment">// 二进制文件流格式，用于download</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@name </span>基础fetch</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;string&#125;</span> </span>url 请求path</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Object&#125;</span> </span>options feich请求配置</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns </span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baseFetch</span>(<span class="params">url, options</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 基础配置</span></span><br><span class="line">  <span class="keyword">const</span> baseOptions = &#123;</span><br><span class="line">    method: <span class="string">"GET"</span>, <span class="comment">// 默认GET请求</span></span><br><span class="line">    headers: &#123; <span class="comment">// 默认请求头</span></span><br><span class="line">      <span class="string">"Content-type"</span>: ContentType.json <span class="comment">// 默认json数据格式</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * include:</span></span><br><span class="line"><span class="comment">     * 默认不论是不是跨域的请求</span></span><br><span class="line"><span class="comment">     * 总是发送请求资源域在本地的 cookies、HTTP Basic authentication 等验证信息</span></span><br><span class="line"><span class="comment">     * omit: 从不发送cookies</span></span><br><span class="line"><span class="comment">     * same-origin: 同源发送cookies</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    credentials: <span class="string">'include'</span></span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// merge options</span></span><br><span class="line">  options = <span class="built_in">Object</span>.assign(baseOptions, options);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> &#123;method, body&#125; = options;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// get请求没有请求体，需要将参数拼接到url上</span></span><br><span class="line">  <span class="keyword">if</span> (method === <span class="string">'GET'</span> &amp;&amp; <span class="built_in">Object</span>.isObject(body)) &#123;</span><br><span class="line">    <span class="keyword">const</span> paramsArray = [];</span><br><span class="line">    <span class="built_in">Object</span>.keys(body).forEach(<span class="function">(<span class="params">key</span>) =&gt;</span></span><br><span class="line">        paramsArray.push(key + <span class="string">"="</span> + <span class="built_in">encodeURIComponent</span>(body[key]))</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">if</span> (url.search(<span class="regexp">/\?/</span>) === <span class="number">-1</span>) &#123;</span><br><span class="line">        url += <span class="string">"?"</span> + paramsArray.join(<span class="string">"&amp;"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        url += <span class="string">"&amp;"</span> + paramsArray.join(<span class="string">"&amp;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 删除请求体属性</span></span><br><span class="line">    <span class="keyword">delete</span> options.body;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// request interceptors</span></span><br><span class="line">  <span class="comment">// 查看当前本地是否有token, 如果有，设置自定义headers中TOKEN</span></span><br><span class="line">  <span class="keyword">const</span> token = localStorage.getItem(TOKEN);</span><br><span class="line">  <span class="keyword">if</span> (token) options.headers[<span class="string">"TOKEN"</span>] = token;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 利用 Promise.race 实现超时拦截</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.race([</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'request timeout'</span>));</span><br><span class="line">      &#125;, TIME_OUT);</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">window</span>.fetch(url, options)</span><br><span class="line">        .then(<span class="keyword">async</span> res =&gt; &#123;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// response interceptors 状态码拦截，对应异常状态吗do something</span></span><br><span class="line">          <span class="keyword">if</span>(!<span class="regexp">/^(2|3)\d&#123;2&#125;$/</span>.test(res.status)) &#123;</span><br><span class="line">              <span class="keyword">switch</span>(res.status) &#123;</span><br><span class="line">                  <span class="keyword">case</span> <span class="number">401</span>:     <span class="comment">//当前用户需要验证（一般是未登陆）</span></span><br><span class="line">                      <span class="keyword">break</span>    <span class="comment">//一般可以弹出遮盖层，或者回到登陆页面</span></span><br><span class="line">                  <span class="keyword">case</span> <span class="number">403</span>:     <span class="comment">// 服务器理解请求，但是拒绝执行，一般是token，session过期</span></span><br><span class="line">                      localStorage.removeItem(TOKEN) </span><br><span class="line">                      <span class="keyword">break</span></span><br><span class="line">                  <span class="keyword">case</span> <span class="number">404</span>:     <span class="comment">// 找不到页面(请求失败，资源在服务器上未找到)，可以给一个友好的提示</span></span><br><span class="line">                      <span class="keyword">break</span>     </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(res)</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="comment">// response interceptors cookies拦截器，存入token</span></span><br><span class="line">          <span class="keyword">if</span> (res.headers[<span class="string">'set-cookies'</span>]) &#123;</span><br><span class="line">            localStorage.setItem(TOKEN, res.headers[<span class="string">'set-cookies'</span>]);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// return data</span></span><br><span class="line">          <span class="keyword">const</span> data = options.headers[<span class="string">'Content-type'</span>] === ContentType.download ? res.blob() : res.json();</span><br><span class="line">          resolve(data);</span><br><span class="line">        &#125;)</span><br><span class="line">        .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">          reject(err);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;)</span><br><span class="line">  ])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> fetchGet = <span class="function">(<span class="params">url, params</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> baseFetch(url, &#123;<span class="attr">body</span>: params&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> fetchPost = <span class="function">(<span class="params">url, params</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> baseFetch(url, &#123;<span class="attr">method</span>: <span class="string">'POST'</span>, <span class="attr">body</span>: <span class="built_in">JSON</span>.stringify(params)&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> fetchDownload = <span class="function">(<span class="params">url, params</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> baseFetch(url, &#123;</span><br><span class="line">    method: <span class="string">'POST'</span>,</span><br><span class="line">    body: <span class="built_in">JSON</span>.stringify(params),</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">"Content-type"</span>: ContentType.download</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/fetch/">fetch</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Luis
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

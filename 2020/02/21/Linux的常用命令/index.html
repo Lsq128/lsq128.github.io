@@ -1,0 +1,251 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="code-DMcH9tdti5" />
+  <meta name="referrer" content="no-referrer" />
+  
+  <title>Linux的常用命令 | Q Code | 遇事不决 可问春风 春风不语 遵循自心</title>
+
+  
+  <meta name="author" content="Luis">
+  
+
+  
+  <meta name="description" content="javaScript">
+  
+
+  
+  <meta name="keywords" content="前端,博客,刘胜群">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Linux的常用命令"/>
+
+  <meta property="og:site_name" content="Q Code"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Q Code" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Q Code</a>
+    </h1>
+    <p class="site-description">遇事不决 可问春风 春风不语 遵循自心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Linux的常用命令</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/02/21/Linux的常用命令/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-02-21T14:56:00.000Z">
+          2020-02-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><p>cd /home     进入 ‘/ home’ 目录’ </p>
+</li>
+<li><p>cd ..     返回上一级目录 </p>
+<a id="more"></a></li>
+<li><p>cd ../..     返回上两级目录 </p>
+</li>
+<li><p>cd       进入个人的主目录 </p>
+</li>
+<li><p>cd ~    也是进入个人的主目录 </p>
+</li>
+<li><p>cd -    返回上次所在的目录</p>
+</li>
+<li><p>pwd    显示完成的当前工作区路径</p>
+</li>
+<li><p>ls    查看目录中的文件 </p>
+</li>
+<li><p>ls -F    查看目录中的文件 </p>
+</li>
+<li><p>ls -l    显示文件和目录的详细资料 </p>
+</li>
+<li><p>ls -a    显示隐藏文件 </p>
+</li>
+<li><p>ls <em>[0-9]</em>    显示包含数字的文件名和目录名</p>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2></li>
+<li><p>touch &lt;fileName.type&gt;    当前目录下创建文件</p>
+</li>
+<li><p>cat file  产看当前文件</p>
+</li>
+<li><p>vim file  进入vim模式,编辑当前文件</p>
+</li>
+<li><p>mkdif <folderName>    当前目录下创建一个或多个文件夹【folderName可以为多个中间用空格隔开】</p>
+</li>
+<li><p>rm <fileName>/<folderName>  删除文件或者文件夹</p>
+</li>
+<li><p>rm -f <fileName>/<folderName>  忽略不存在的文件或者文件夹的删除</p>
+</li>
+<li><p>rm -r <folderName> 以递归的方式删除文件夹及其内容</p>
+</li>
+<li><p>rm -rf <folderName> 常用删除一个文件夹的 使用方式</p>
+</li>
+<li><p>cp file1 file2    复制file1文件到当前目前下复制文件名为file2</p>
+</li>
+<li><p>cp -a folder1 test/folder2    将当前文件下的folder1及其内容 复制到子目录test下folder2</p>
+</li>
+<li><p>cp -f file1 test/file1    强行将file1文件复制到test目录下命名为file1(无论是否覆盖都不提示用户)</p>
+</li>
+<li><p>cp -i file1 test/file1 与 -f 相反，在覆盖前会提示用户，y/n </p>
+</li>
+<li><p>mv file/folder test/     将当前目录的file文件或者folder文件夹 移动到 test文件夹下</p>
+</li>
+<li><p>mv -i file/folder test/     在上面命令的基础上会增加若指定目录已有同名文件，则先询问是否覆盖旧文件;</p>
+</li>
+<li><p>mv -f file/folder test/     在mv操作要覆盖某已有的目标文件时不给任何指示;</p>
+</li>
+<li><p>mv file1/folder1 file2/folder2    如果是在当前目录下执行则是重命名文件或者文件夹名字</p>
+</li>
+</ul>
+<h2 id="打包-解压"><a href="#打包-解压" class="headerlink" title="打包/解压"></a>打包/解压</h2><ul>
+<li><p>bzip2 file1 压缩一个叫做 ‘file1’ 的文件(生成后的压缩文件为 file1.bz2)</p>
+</li>
+<li><p>bunzip2 file1.bz2 解压一个叫做 ‘file1.bz2’的文件(生成后的文件为 file1)</p>
+</li>
+<li><p>gzip file1 压缩一个叫做 ‘file1’的文件(生成后的压缩文件 file1.gz)</p>
+</li>
+<li><p>gunzip file1.gz 解压一个叫做 ‘file1.gz’的文件 (生成后的文件 file)</p>
+</li>
+<li><p>tar -cvf [file.tar, file.gz, file.bz2…]  file1.txt </p>
+<blockquote>
+<p>将file1.txt压缩，详细显示正在处理的文件名, 创建一个[.tar, .gz, .bz2 …]格式的压缩文件，</p>
+</blockquote>
+</li>
+<li><p>tar -xvf file1.tar -C /test</p>
+<blockquote>
+<p>将file1.tar 文件在子文件test中释放</p>
+</blockquote>
+</li>
+<li><p>tar -cvjf file1.tar.bz2 file.txt </p>
+<blockquote>
+<p>将file1.txt压缩，详细显示正在处理的文件名,创建一个file.tar.bz2格式的压缩文件，</p>
+</blockquote>
+</li>
+<li><p>tar -xvjf file1.tar.bz2 </p>
+<blockquote>
+<p>解压一个 file1.tar.bz2 文件</p>
+</blockquote>
+</li>
+<li><p>tar -cvfz file1.tar.gz file.txt</p>
+<blockquote>
+<p>将file1.txt压缩，详细显示正在处理的文件名,创建一个file1.tar.gz格式的压缩文件</p>
+</blockquote>
+</li>
+<li><p>tar -xvfz file1.tar.gz</p>
+<blockquote>
+<p>解压一个 file1.tar.gz 文件</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="磁盘"><a href="#磁盘" class="headerlink" title="磁盘"></a>磁盘</h2><ul>
+<li>df -h    显示已经挂载的分区列表 </li>
+<li>ls -lSr |more    以尺寸大小排列文件和目录 </li>
+<li>du -sh dir1    估算目录 ‘dir1’ 已经使用的磁盘空间’ </li>
+<li>du -sk * | sort -rn    以容量大小为依据依次显示文件和目录的大小 </li>
+</ul>
+<h2 id="查看文件内容"><a href="#查看文件内容" class="headerlink" title="查看文件内容"></a>查看文件内容</h2><ul>
+<li>cat -n 1.txt    查看文件标注每行行号(包括空行)</li>
+<li>cat -b 1.txt    查看文件标注每行行号(忽略空行)</li>
+<li>tail -f 1.txt    实时监控显示1.txt文件的变动</li>
+<li>tail -n 2 1.txt    显示1.txt尾行2行内容</li>
+<li>tail -c 2 1.txt    显示1.txt尾行2个字节的内容</li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Linux/">Linux</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Luis
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="code-DMcH9tdti5" />
+  <meta name="referrer" content="no-referrer" />
+  
+  <title>Vim的常用命令 | Q Code | 遇事不决 可问春风 春风不语 遵循自心</title>
+
+  
+  <meta name="author" content="Luis">
+  
+
+  
+  <meta name="description" content="javaScript">
+  
+
+  
+  <meta name="keywords" content="前端,博客,刘胜群">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Vim的常用命令"/>
+
+  <meta property="og:site_name" content="Q Code"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Q Code" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Q Code</a>
+    </h1>
+    <p class="site-description">遇事不决 可问春风 春风不语 遵循自心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Vim的常用命令</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/02/21/Vim的常用命令/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-02-21T13:29:23.000Z">
+          2020-02-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Vim的常规使用"><a href="#Vim的常规使用" class="headerlink" title="Vim的常规使用"></a>Vim的常规使用</h1><blockquote>
+<p>一些常用的vim命令</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h2><table>
+<thead>
+<tr>
+<th align="center"><strong>命令</strong></th>
+<th align="center"><strong>功能</strong></th>
+<th align="center"><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>:set nu</strong></td>
+<td align="center">显示行号</td>
+<td align="center">:set number</td>
+</tr>
+<tr>
+<td align="center"><strong>:set nonu</strong></td>
+<td align="center">取消显示行号</td>
+<td align="center">:set nonumber</td>
+</tr>
+<tr>
+<td align="center"><strong>:n(ngg)</strong></td>
+<td align="center">跳转至第n行</td>
+<td align="center">ngg可以不用回车直接跳转</td>
+</tr>
+<tr>
+<td align="center"><strong>:set ic</strong></td>
+<td align="center">大小写敏感</td>
+<td align="center">:set ignorecase</td>
+</tr>
+<tr>
+<td align="center"><strong>:set noic</strong></td>
+<td align="center">忽略大小写敏感</td>
+<td align="center">:set noignorecase</td>
+</tr>
+<tr>
+<td align="center"><strong>:set hls</strong></td>
+<td align="center">高亮查找</td>
+<td align="center">:set hlsearch</td>
+</tr>
+<tr>
+<td align="center">## 光标</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>命令</strong></th>
+<th align="center"><strong>功能</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>b/B</strong></td>
+<td align="center">光标往左挪一词</td>
+</tr>
+<tr>
+<td align="center"><strong>w/W</strong></td>
+<td align="center">光标往右挪一词</td>
+</tr>
+<tr>
+<td align="center"><strong>command + u</strong></td>
+<td align="center">向上，移动半页</td>
+</tr>
+<tr>
+<td align="center"><strong>command + d</strong></td>
+<td align="center">向下，移动半页</td>
+</tr>
+<tr>
+<td align="center"><strong>command + b</strong></td>
+<td align="center">向上，移动一页</td>
+</tr>
+<tr>
+<td align="center"><strong>command + f</strong></td>
+<td align="center">向下，移动一页</td>
+</tr>
+</tbody></table>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><table>
+<thead>
+<tr>
+<th align="center"><strong>命令</strong></th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>?key</strong></td>
+<td align="center">从光标之上查找字符串keyword</td>
+</tr>
+<tr>
+<td align="center"><strong>/key</strong></td>
+<td align="center">从光标之下查找字符串keyword</td>
+</tr>
+</tbody></table>
+<h2 id="复制-粘贴-删除-撤销"><a href="#复制-粘贴-删除-撤销" class="headerlink" title="复制 / 粘贴 / 删除 / 撤销"></a>复制 / 粘贴 / 删除 / 撤销</h2><table>
+<thead>
+<tr>
+<th align="center"><strong>命令</strong></th>
+<th align="center"><strong>功能</strong></th>
+<th align="center"><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>yyp</strong></td>
+<td align="center">复制光标所在行</td>
+<td align="center">行复制(单行)</td>
+</tr>
+<tr>
+<td align="center"><strong>nyyp</strong></td>
+<td align="center">复制光标所在的向下n行</td>
+<td align="center">行复制(多行)</td>
+</tr>
+<tr>
+<td align="center"><strong>p</strong></td>
+<td align="center">粘贴</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"><strong>dd</strong></td>
+<td align="center">删除光标所在行</td>
+<td align="center">行删除(单行)</td>
+</tr>
+<tr>
+<td align="center"><strong>ndd</strong></td>
+<td align="center">删除光标所在的向下n行</td>
+<td align="center">行删除(多行)</td>
+</tr>
+<tr>
+<td align="center"><strong>d0(d^)</strong></td>
+<td align="center">删除光标所在位置到行首</td>
+<td align="center">行删除(部分)</td>
+</tr>
+<tr>
+<td align="center"><strong>D (d$)</strong></td>
+<td align="center">删除光标所在位置到行尾</td>
+<td align="center">行删除(部分)</td>
+</tr>
+<tr>
+<td align="center"><strong>x</strong></td>
+<td align="center">删除光标后一个字符</td>
+<td align="center">字符删除(单个)</td>
+</tr>
+<tr>
+<td align="center"><strong>X</strong></td>
+<td align="center">删除光标前一个字符</td>
+<td align="center">字符删除(单个)</td>
+</tr>
+<tr>
+<td align="center"><strong>nx</strong></td>
+<td align="center">删除光标后n个字符</td>
+<td align="center">字符删除(多个)</td>
+</tr>
+<tr>
+<td align="center"><strong>nX</strong></td>
+<td align="center">删除光标前n个字符</td>
+<td align="center">字符删除(多个)</td>
+</tr>
+<tr>
+<td align="center"><strong>db</strong></td>
+<td align="center">删除到前一个单词</td>
+<td align="center">字母删除</td>
+</tr>
+<tr>
+<td align="center"><strong>dB</strong></td>
+<td align="center">删除到前一个单词，包括标点在内</td>
+<td align="center">词删除</td>
+</tr>
+<tr>
+<td align="center"><strong>de</strong></td>
+<td align="center">删除到本单词末尾</td>
+<td align="center">词删除</td>
+</tr>
+<tr>
+<td align="center"><strong>dE</strong></td>
+<td align="center">删除到本单词末尾，包括标点在内</td>
+<td align="center">词删除</td>
+</tr>
+<tr>
+<td align="center"><strong>dw</strong></td>
+<td align="center">删除到下一个单词开头</td>
+<td align="center">词删除</td>
+</tr>
+<tr>
+<td align="center"><strong>d1G</strong></td>
+<td align="center">删除光标所在行到第一行</td>
+<td align="center">块删除</td>
+</tr>
+<tr>
+<td align="center"><strong>dG</strong></td>
+<td align="center">删除光标所在行到最后一行</td>
+<td align="center">块删除</td>
+</tr>
+<tr>
+<td align="center"><strong>u</strong></td>
+<td align="center">撤销</td>
+<td align="center">撤销历史修改</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Vim/">Vim</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Luis
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

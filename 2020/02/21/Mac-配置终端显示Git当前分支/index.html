@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="code-DMcH9tdti5" />
+  <meta name="referrer" content="no-referrer" />
+  
+  <title>Mac-配置终端显示Git当前分支 | Q Code | 遇事不决 可问春风 春风不语 遵循自心</title>
+
+  
+  <meta name="author" content="Luis">
+  
+
+  
+  <meta name="description" content="javaScript">
+  
+
+  
+  <meta name="keywords" content="前端,博客,刘胜群">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Mac-配置终端显示Git当前分支"/>
+
+  <meta property="og:site_name" content="Q Code"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Q Code" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Q Code</a>
+    </h1>
+    <p class="site-description">遇事不决 可问春风 春风不语 遵循自心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Mac-配置终端显示Git当前分支</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/02/21/Mac-配置终端显示Git当前分支/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-02-21T14:56:37.000Z">
+          2020-02-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="1-进入根目录"><a href="#1-进入根目录" class="headerlink" title="1.进入根目录"></a>1.进入根目录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br></pre></td></tr></table></figure>
+<h3 id="2-编辑-bashrc文件（如没有此文件会自动创建）"><a href="#2-编辑-bashrc文件（如没有此文件会自动创建）" class="headerlink" title="2.编辑.bashrc文件（如没有此文件会自动创建）"></a>2.编辑<code>.bashrc</code>文件（如没有此文件会自动创建）</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim .bashrc</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="3-将下面的代码加入到文件的最后处"><a href="#3-将下面的代码加入到文件的最后处" class="headerlink" title="3.将下面的代码加入到文件的最后处"></a>3.将下面的代码加入到文件的最后处</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function git_branch &#123;</span><br><span class="line">   branch="`git branch 2&gt;/dev/null | grep "^\*" | sed -e "s/^\*\ //"`"</span><br><span class="line">   if [ "$&#123;branch&#125;" != "" ];then</span><br><span class="line">       if [ "$&#123;branch&#125;" = "(no branch)" ];then</span><br><span class="line">           branch="(`git rev-parse --short HEAD`...)"</span><br><span class="line">       fi</span><br><span class="line">       echo " ($branch)"</span><br><span class="line">   fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export PS1='\u@\h \[\033[01;36m\]\W\[\033[01;32m\]$(git_branch)\[\033[00m\] \$ '</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-保存退出"><a href="#4-保存退出" class="headerlink" title="4.保存退出"></a>4.保存退出</h3><p>esc后在终端输入:wq回车</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:wq</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-重新加载命令"><a href="#5-重新加载命令" class="headerlink" title="5.重新加载命令"></a>5.重新加载命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ./.bashrc</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Mac 下面启动的 shell 是 login shell，所以加载的配置文件是<code>.bash_profile</code>，不会加载<code>.bashrc</code>。如果是 Mac 的话，需要再执行下面的命令，这样每次开机后才会自动生效：</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo "[ -r ~/.bashrc ] &amp;&amp; source ~/.bashrc" &gt;&gt; .bash_profile</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-效果图"><a href="#6-效果图" class="headerlink" title="6.效果图"></a>6.效果图</h3><p><img src="https://cdn.nlark.com/yuque/0/2019/png/177787/1576684595524-9a79802b-4c85-472b-8ac5-bdbcf7e87267.png#align=left&display=inline&height=18&name=image.png&originHeight=36&originWidth=494&size=15406&status=done&style=none&width=247" alt="image.png"></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Git/">Git</a><a href="/tags/常用知识/">常用知识</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Luis
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

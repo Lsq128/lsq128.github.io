@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="code-DMcH9tdti5" />
+  <meta name="referrer" content="no-referrer" />
+  
+  <title>vue3学习笔记之emit | Q Code | 遇事不决 可问春风 春风不语 遵循自心</title>
+
+  
+  <meta name="author" content="Luis">
+  
+
+  
+  <meta name="description" content="javaScript">
+  
+
+  
+  <meta name="keywords" content="前端,博客,刘胜群">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="vue3学习笔记之emit"/>
+
+  <meta property="og:site_name" content="Q Code"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Q Code" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Q Code</a>
+    </h1>
+    <p class="site-description">遇事不决 可问春风 春风不语 遵循自心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>vue3学习笔记之emit</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/09/05/vue3学习笔记之emit/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-09-05T14:59:43.000Z">
+          2021-09-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在vue3中emit的使用方式与vue2有哪些区别？vue3中emit的正确姿势是什么？…</p>
+<a id="more"></a>
+
+<h2 id="回顾vue2中的emit"><a href="#回顾vue2中的emit" class="headerlink" title="回顾vue2中的emit"></a>回顾vue2中的emit</h2><p>在vue2中，子组件想要将自定义事件向上级透传的方式就是<code>this.$emit(&lt;changName&gt;, payload)</code></p>
+<p>child.vue</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">  &lt;button @click=<span class="string">"onEmit"</span>&gt; 子组件透传事件 &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/template&gt;</span></span><br><span class="line"><span class="regexp">&lt;script&gt;</span></span><br><span class="line"><span class="regexp">export default &#123;</span></span><br><span class="line"><span class="regexp">  methods: &#123;</span></span><br><span class="line"><span class="regexp">    onEmit() &#123;</span></span><br><span class="line"><span class="regexp">      this.$emit("on-change", "hi~");</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">&lt;/</span>script&gt;</span><br></pre></td></tr></table></figure>
+<p>parent.vue</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">  &lt; child @on-change=<span class="string">"onChildChange"</span> /&gt;</span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> Child <span class="keyword">from</span> <span class="string">"./Child.vue"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    Child</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    onChildChange(v) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(v); <span class="comment">// hi~</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上就是vue2 中常见的emit使用方式。关键点就是子组件依赖<code>this.$emit</code>透传，父组件使用子组件并<code>v-on</code>指定子组件透传事件Name.</p>
+<h2 id="vue3的emit-emit-emits-options"><a href="#vue3的emit-emit-emits-options" class="headerlink" title="vue3的emit($emit, emits-options)"></a>vue3的emit($emit, emits-options)</h2><h3 id="setup-中的-emit"><a href="#setup-中的-emit" class="headerlink" title="setup()中的$emit"></a>setup()中的$emit</h3><p>在setup()的this 是不指向当前实例的(this为undefined)，如果想使用使用<code>$emit</code>的功能，需要借助<code>setup(props, context)</code>中的<code>context</code>;</p>
+<p>context会暴露三个组件的property；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  setup(props, context) &#123;</span><br><span class="line">    <span class="comment">// Attribute (非响应式对象)</span></span><br><span class="line">    <span class="built_in">console</span>.log(context.attrs)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 插槽 (非响应式对象)</span></span><br><span class="line">    <span class="built_in">console</span>.log(context.slots)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 触发事件 (方法)</span></span><br><span class="line">    <span class="built_in">console</span>.log(context.emit)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里我们需要使用<code>context.emit</code>;如下的🌰</p>
+<p>child.vue</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;button @click=<span class="string">"clickBtn"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"btn-item"</span>&gt;hi~&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/template&gt;</span></span><br><span class="line"><span class="regexp">&lt;script&gt;</span></span><br><span class="line"><span class="regexp">import &#123; defineComponent &#125; from 'vue'</span></span><br><span class="line"><span class="regexp">export default defineComponent(&#123;</span></span><br><span class="line"><span class="regexp">  setup (props, ctx) &#123;</span></span><br><span class="line"><span class="regexp">    const clickBtn = () =&gt; &#123;</span></span><br><span class="line"><span class="regexp">      ctx.emit("on-change", "hi~");</span></span><br><span class="line"><span class="regexp">    &#125;;</span></span><br><span class="line"><span class="regexp">    return &#123; clickBtn&#125;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;)</span></span><br><span class="line"><span class="regexp">&lt;/</span>script&gt;</span><br></pre></td></tr></table></figure>
+<p>parent.vue</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;emit-child @on-change=<span class="string">"emitFn"</span> /&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> &#123; defineComponent &#125; <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> EmitChild <span class="keyword">from</span> <span class="string">"./Child.vue"</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> defineComponent(&#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    EmitChild</span><br><span class="line">  &#125;,</span><br><span class="line">  setup () &#123;</span><br><span class="line">    <span class="keyword">const</span> emitFn = <span class="function"><span class="params">v</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123; emitFn &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>效果图:<br><img src="https://tva1.sinaimg.cn/large/008i3skNly1gu66ghda54g61kk0t8ac602.gif" alt="image"></p>
+<p><strong>这里说一下如果触发的事件名与原生事件名同名(如 click)会出现问题: 自定义事件与原生事件都会触发</strong><br>为此将代码略微修改后测试</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// child.vue</span></span><br><span class="line">  <span class="keyword">const</span> clickBtn = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    ctx.emit(<span class="string">"click"</span>, <span class="string">"hi~"</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"><span class="comment">// parent.vue</span></span><br><span class="line">&lt;emit-child @click=<span class="string">"emitFn"</span> /&gt;</span><br></pre></td></tr></table></figure>
+<p>效果图<br><img src="https://tva1.sinaimg.cn/large/008i3skNly1gu66oj0r4cg61kk0t8jv802.gif" alt="image"><br>该问题如何解决呢？清往下看</p>
+<h3 id="emits-option"><a href="#emits-option" class="headerlink" title="emits-option"></a>emits-option</h3><p>详细的文档说明，可以左转<a href="https://vue3js.cn/docs/zh/api/options-data.html#emits" target="_blank" rel="noopener">链接</a></p>
+<p>在这里简单做一下总结</p>
+<ol>
+<li>emits是记录了当前组件的事件列表</li>
+<li>类型: Array | Object</li>
+<li>若为Object增加emit事件的校验(返回值应是<code>boolean</code>),</li>
+<li>可以解决自定义事件名与原生事件相同导致事件多次执行问题(上述)</li>
+<li>emits无论是数组或者对象用法最终都会将事件给传递出去，数组或对象的使用只是为了记录实例中的emit事件，或者是验证事件中的参数</li>
+</ol>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/vue/">vue</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Luis
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
